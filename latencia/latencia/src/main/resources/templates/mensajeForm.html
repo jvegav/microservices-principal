@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Mensaje</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css">
+</head>
+<body>
+    </br>
+    <div class = "container">
+    <form id="phoneForm" th:action="@{/cliente/mensaje/enviar}" method="post">
+        <div>
+            <label class="col-form-label">Número de Teléfono con Indicativo:</label>
+            <input class="form-control" type="tel" id="phoneNumber" name="phoneNumber" required />
+
+            <div class="text-center">
+                <input type="submit" value="Guardar" class="btn btn-primary">
+                <a th:href="@{/cliente}" class="btn btn-primary">Cancelar</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"></script>
+    <script>
+        const phoneInputField = document.querySelector("#phoneNumber");
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            initialCountry: "auto",
+            geoIpLookup: function(success, failure) {
+                fetch('https://ipinfo.io?token=34a8ccb63de50b')
+                    .then((resp) => resp.json())
+                    .then((resp) => {
+                        success(resp.country);
+                    })
+                    .catch(() => {
+                        success('co');
+                    });
+            },
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js"
+        });
+
+        const form = document.getElementById('phoneForm');
+        form.addEventListener('submit', function(event) {
+            const isValid = phoneInput.isValidNumber();
+            if (!isValid) {
+                event.preventDefault();
+                alert('Por favor ingrese un número de teléfono válido.');
+            } else {
+                const fullNumber = phoneInput.getNumber();
+                phoneInputField.value = fullNumber;
+            }
+        });
+    </script>
+</body>
+</html>
+

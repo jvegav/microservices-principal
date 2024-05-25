@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-LatenciaApplication<latencia>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.latencia.latencia.LatenciaApplication",
+            "projectName": "latencia",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
